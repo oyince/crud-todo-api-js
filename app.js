@@ -21,6 +21,8 @@ app.get('/todos/:id', (req, res) => {
 
 // POST New – Create
 app.post('/todos', (req, res) => {
+  if (!req.body.task) return res.status(404).json({ error: 'Task field is required'});
+
   const newTodo = { id: todos.length + 1, ...req.body }; // Auto-ID
   todos.push(newTodo);
   res.status(201).json(newTodo); // Echo back
