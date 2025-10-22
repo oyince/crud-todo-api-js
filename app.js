@@ -5,11 +5,22 @@ app.use(express.json()); // Parse JSON bodies
 let todos = [
   { id: 1, task: 'Learn Node.js', completed: false },
   { id: 2, task: 'Build CRUD API', completed: false },
-];
+  { id: 3, task: 'Test endpoints', completed: true }
+];  
 
 // GET All – Read
 app.get('/todos', (req, res) => {
   res.status(200).json(todos); // Send array as JSON
+});
+
+app.get('/todos/active', (req, res) => {
+  const activeTodos = todos.filter((t) => !t.completed);
+  res.json(activeTodos); 
+});
+
+app.get('/todos/completed', (req, res) => {
+  const completed = todos.filter((t) => t.completed);
+  res.json(completed); // Custom Read!
 });
 
 // GET Single - Read
@@ -44,11 +55,6 @@ app.delete('/todos/:id', (req, res) => {
   if (todos.length === initialLength)
     return res.status(404).json({ error: 'Not found' });
   res.status(204).send(); // Silent success
-});
-
-app.get('/todos/completed', (req, res) => {
-  const completed = todos.filter((t) => t.completed);
-  res.json(completed); // Custom Read!
 });
 
 app.use((err, req, res, next) => {
