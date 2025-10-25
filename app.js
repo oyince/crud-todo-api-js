@@ -55,7 +55,7 @@ app.delete('/todos/:id', (req, res) => {
   todos = todos.filter((t) => t.id !== id); // Array.filter() – non-destructive
   if (todos.length === initialLength)
     return res.status(404).json({ error: 'Not found' });
-  res.status(204).send(); // Silent success
+  res.status(200).json({message:'Todo deleted successfully'});
 });
 
 app.use((err, req, res, next) => {
